@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { IDynamicPageData, IDynamicPageMeta, DYNAMIC_PAGES } from 'src/data/dynamic-page';
 import { map } from 'rxjs/operators';
 import { TextContentComponent } from '../components/text-content/text-content.component';
@@ -52,6 +52,10 @@ export class DynamicPageService {
   }
 
   private simulateHttpGet(uri): Observable<IDynamicPageData> {
-    return of(DYNAMIC_PAGES.find(x => x.uri === uri));
+    const page = DYNAMIC_PAGES.find(x => x.uri === uri);
+    if (!page) {
+      return throwError(new Error('Not found - 404'));
+    }
+    return of(page);
   }
 }

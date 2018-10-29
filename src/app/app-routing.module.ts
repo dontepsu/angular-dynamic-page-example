@@ -1,22 +1,21 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { DynamicPageComponent } from './pages/dynamic-page/dynamic-page.component';
-import { HomeComponent } from './pages/home/home.component';
-
 const routes: Routes = [
   {
     path: '',
-    component: HomeComponent,
+    loadChildren: './pages/home/home.module#HomeModule'
   },
   {
     path: '**',
-    component: DynamicPageComponent,
-    pathMatch: 'full',
+    loadChildren: './pages/dynamic-page/dynamic-page.module#DynamicPageModule'
   }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes,   {
+    enableTracing: true,
+    initialNavigation: 'enabled'
+  })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

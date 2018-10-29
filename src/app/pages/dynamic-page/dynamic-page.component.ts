@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges, AfterViewInit } from '@angular/core';
 import { DynamicPageService, IDynamicPage } from 'src/app/services/dynamic-page.service';
 import { DynamicPageItem } from './dynamic-page-item';
 import { Location } from '@angular/common';
 import { Title } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dynamic-page',
@@ -15,16 +16,23 @@ export class DynamicPageComponent implements OnInit {
   constructor(
     private location: Location,
     private dynamicPageService: DynamicPageService,
-    private title: Title
+    private title: Title,
+    private router: Router
   ) { }
 
   ngOnInit() {
     const uri = this.location.path();
     this.dynamicPageService.get(uri)
-      .subscribe((page: IDynamicPage) => {
-        this.title.setTitle(page.meta.title);
-        this.content = page.items;
-      });
+      .subscribe(
+        (page: IDynamicPage): void => {
+          this.title.setTitle(page.meta.title);
+          this.content = page.items;
+        },
+        (error: Error): void => {
+          console.log(`${uri} -> caught: ${error.message}, redirecting to frontpage`);
+          this.router.navigateByUrl('/');
+        }
+      );
   }
 
 }

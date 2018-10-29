@@ -1,3 +1,8 @@
-<p>
-  banner works!
-</p>
+<section>
+  <a [routerLink]="linkUri">
+    <h1>{{ title }} </h1>
+    <p>{{ text }}</p>
+    <img [src]="image" />
+    <div class="darken"></div>
+  </a>
+</section>

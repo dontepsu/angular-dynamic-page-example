@@ -22,8 +22,32 @@ export const DYNAMIC_PAGES: IDynamicPageData[] = [
     uri: '/campaign',
     meta: { title: 'Campaign site' },
     items: [
-      { component: 'banner', props: { title: 'Awesome Campaign', text: 'Some banner text', image: '/assets/business.jpeg'  } },
-      { component: 'text-content', props: { content: '<h2>Markdown or HTML?</h2><p>Well <strong>you</strong> choose!</p>' } }
+      {
+        component: 'banner',
+        props: {
+          title: 'Awesome Campaign',
+          text: 'Click me to go to sub-campaign',
+          image: '/assets/business.jpeg',
+          linkUri: '/campaign/sub' }
+      },
+      {
+        component: 'text-content',
+        props: {
+          content: '<h2>Markdown or HTML?</h2><p>Well <strong>you</strong> choose!</p>'
+        }
+      }
+    ]
+  },
+  {
+    uri: '/campaign/sub',
+    meta: { title: 'Sub-Campaign site' },
+    items: [
+      {
+        component: 'text-content',
+        props: {
+          content: '<h2>This is the Campaign sub page</h2>',
+        }
+      }
     ]
   }
 ];
