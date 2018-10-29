@@ -1,0 +1,5 @@
+<ul class="links">
+  <li *ngFor="let item of listing">
+    <a [routerLink]="item.uri">{{ item.title }}</a>
+  </li>
+</ul>
