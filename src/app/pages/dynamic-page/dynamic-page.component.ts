@@ -22,6 +22,7 @@ export class DynamicPageComponent implements OnInit {
 
   ngOnInit() {
     const uri = this.location.path();
+    // load the dynamic page configuration from service
     this.dynamicPageService.get(uri)
       .subscribe(
         (page: IDynamicPage): void => {

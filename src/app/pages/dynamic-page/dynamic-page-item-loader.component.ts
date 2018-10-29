@@ -21,10 +21,9 @@ export class DynamicComponentLoaderComponent implements OnInit {
   loadComponent() {
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(this.dynamicPageItem.component);
     const viewContainerRef = this.dynamicPageItemHost.viewContainerRef;
-    viewContainerRef.clear();
-
     const componentRef = viewContainerRef.createComponent(componentFactory);
 
+    // Load the @Input's
     Object.keys(this.dynamicPageItem.props).forEach(
       key => {
         (<any>componentRef.instance)[key] = this.dynamicPageItem.props[key];

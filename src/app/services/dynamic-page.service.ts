@@ -16,11 +16,11 @@ export interface IDynamicPageListing {
   title: string;
 }
 
+// Used to map the "component indentifier" to an actual component
 const COMPONENT_NAME_MAP = {
   'text-content': TextContentComponent,
   'banner': BannerComponent,
 };
-
 
 @Injectable({
   providedIn: 'root'
@@ -31,7 +31,7 @@ export class DynamicPageService {
 
   getSitesForListing(): Observable<IDynamicPageListing[]> {
     return of(DYNAMIC_PAGES
-      .filter(x => !x.uri.split('/')[2]) // we want only first level dynamic routes, not nested routes e.g "/campaing/nested"
+      .filter(x => !x.uri.split('/')[2]) // filter only first level dynamic routes, not nested routes e.g "/campaing/nested"
       .map(x => ({
         title: x.meta.title,
         uri: x.uri,
@@ -44,6 +44,7 @@ export class DynamicPageService {
       .pipe(
         map(page => ({
           items: page.items.map(
+            // map the parts to a DynamicPageITem
             item => new DynamicPageItem(COMPONENT_NAME_MAP[item.component], item.props)
           ),
           meta: page.meta,
@@ -51,6 +52,10 @@ export class DynamicPageService {
       );
   }
 
+  // for demo purposes, just mock the http call.
+  // this data could be loaded from your backend which fetches the dynamic page configuration
+  // from API CMS like Prismic or Contentful and cleans the response.
+  // You could also clean the response in front-end and directely fetch the config from API CMS.
   private simulateHttpGet(uri): Observable<IDynamicPageData> {
     const page = DYNAMIC_PAGES.find(x => x.uri === uri);
     if (!page) {
